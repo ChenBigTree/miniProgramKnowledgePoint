@@ -1,2 +1,25 @@
-<!--pages/tree/tree.wxml-->
-<text>pages/tree/tree.wxml</text>
+<view class="tree-box">
+  <tree id="dongBei" nodes="{{ dongBei }}" rootId="dongBei" bind:toggle="onTreeToggle" bind:checkChange="onTreeChecked">
+  </tree>
+  <tree id="huaDong" nodes="{{ huaDong }}" rootId="huaDong" bind:toggle="onTreeToggle" bind:checkChange="onTreeChecked">
+  </tree>
+  <tree id="huaZhong" nodes="{{ huaZhong }}" rootId="huaZhong" bind:toggle="onTreeToggle" bind:checkChange="onTreeChecked">
+  </tree>
+  <tree id="huaNan" nodes="{{ huaNan }}" rootId="huaNan" bind:toggle="onTreeToggle" bind:checkChange="onTreeChecked">
+  </tree>
+  <tree id="huaBei" nodes="{{ huaBei }}" rootId="huaBei" bind:toggle="onTreeToggle" bind:checkChange="onTreeChecked">
+  </tree>
+  <tree id="xiBei" nodes="{{ xiBei }}" rootId="xiBei" bind:toggle="onTreeToggle" bind:checkChange="onTreeChecked">
+  </tree>
+  <tree id="xiNan" nodes="{{ xiNan }}" rootId="xiNan" bind:toggle="onTreeToggle" bind:checkChange="onTreeChecked">
+  </tree>
+  <tree id="gangAoTai" nodes="{{ gangAoTai }}" rootId="gangAoTai" bind:toggle="onTreeToggle"
+    bind:checkChange="onTreeChecked">
+  </tree>
+</view>
+<view class="butBox">
+  <view class="all" bindtap="checkAllNodes">
+    <van-checkbox shape="round" value="{{ allSelect }}">全选</van-checkbox>
+  </view>
+  <view class="confirm " bindtap="getAllCheckedNodes"> 确认选择 {{ selectedNodeCount }} 个</view>
+</view>

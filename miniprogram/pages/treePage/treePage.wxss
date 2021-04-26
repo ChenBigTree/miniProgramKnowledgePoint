@@ -1,1 +1,38 @@
-/* pages/tree/tree.wxss */
+.tree-box {
+  margin-bottom: 120rpx;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+
+.butBox {
+  position: fixed;
+  bottom: 20rpx;
+  left: 5%;
+  width: 90%;
+  height: 80rpx;
+  line-height: 80rpx;
+  display: flex;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.confirm {
+  flex: 3;
+  border-top-right-radius: 50rpx;
+  background: #e32a2a;
+  overflow: hidden;
+  color: #fff;
+  border-bottom-right-radius: 50rpx;
+}
+
+.all {
+  flex: 1;
+  border-top-left-radius: 50rpx;
+  background: #fff;
+  padding: 0 10rpx;
+  border-bottom-left-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

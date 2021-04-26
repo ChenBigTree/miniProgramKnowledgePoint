@@ -1,6 +1,9 @@
 const fieldCode = 'code'
 const fieldName = 'name'
-
+const {
+  getValueByPath,
+  doWithTree 
+} =require("../../utility/public")
 function splitKeyToArray(key) {
   // 把字符串 'nodes[0].nodes[1].nodes[1]' 分解为数组：
   // ['nodes[0]', 'nodes[0].nodes[1]', 'nodes[0].nodes[1].nodes[1]']
@@ -17,38 +20,7 @@ function splitKeyToArray(key) {
   }
   return result
 }
-function getValueByPath(obj, path, def) {
-  var stringToPath = function (path) {
-    if (typeof path !== 'string') return path
-    var output = []
-    path.split('.').forEach(function (item, index) {
-      item.split(/\[([^}]+)\]/g).forEach(function (key) {
-        if (key.length > 0) {
-          output.push(key)
-        }
-      })
-    })
-    return output
-  }
-  path = stringToPath(path)
-  var current = obj
-  for (var i = 0; i < path.length; i++) {
-    if (!current[path[i]]) return def
-    current = current[path[i]]
-  }
 
-  return current
-}
-function doWithTree(nodes, func) {
-  if (Array.isArray(nodes) && nodes.length) {
-    nodes.forEach(node => {
-      func(node)
-      if (Array.isArray(node.nodes) && node.nodes.length) {
-        doWithTree(node.nodes, func)
-      }
-    })
-  }
-}
 function updateTree(nodes, exceptCodes, updateNode, updateFields, dataObj = {}, upataNodeData = {}) {
   let updateNodes = {}
   if (Array.isArray(nodes) && nodes.length > 0) {

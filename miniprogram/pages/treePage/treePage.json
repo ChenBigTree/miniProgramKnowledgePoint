@@ -1,3 +1,9 @@
 {
-  "usingComponents": {}
+  "enablePullDownRefresh": false,
+  "initialRenderingCache": "static",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "tree":"../../components/tree/tree",
+    "van-checkbox": "@vant/weapp/checkbox/index"
+  }
 }
