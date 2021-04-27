@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/catalog/catalog",
+    "pages/stepNumber/stepNumber",
     "pages/treePage/treePage"
   ],
   "window": {

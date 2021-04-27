@@ -1,6 +1,6 @@
 {
   "enablePullDownRefresh": false,
-  "initialRenderingCache": "static",
+  "navigationBarTitleText":"地区选择",
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "tree":"../../components/tree/tree",

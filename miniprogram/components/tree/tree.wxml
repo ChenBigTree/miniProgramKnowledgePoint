@@ -1,2 +1,42 @@
-<!--component/tree/tree.wxml-->
-<text>component/tree/tree.wxml</text>
+<van-row>
+  <van-col wx:if="{{ nodes[0] && nodes[0].level !== 0 }}" span="{{ nodes[0].level * 1 }}"><text decode="true"
+      style="line-height:30px;">&nbsp;</text></van-col>
+  <van-col wx:if="{{ nodes[0] }}" span="{{ 24 - nodes[0].level * 1 }}">
+    <van-row>
+      <block wx:for="{{ nodes }}" wx:key="code">
+        <van-col span="{{ item.level === 0 ? 24 : 12 }}">
+          <van-checkbox value="{{ item.checked >= 1 ? true : false }}" bind:change="onCheckChange"
+            data-index="{{ index }}" checked-color="{{ item.checked === 2 ? '#87cefa' : '#1989fa' }}"
+            disabled="{{ item.disabled || false }}" label-disabled="{{ item.disabled || false }}">
+            <view wx:if="{{ item.level===3 }}" style="margin: 10rpx 0;">{{ item.name }}</view>
+            <view wx:else catch:tap="onToggle" data-index="{{ index }}" style="margin: 10rpx 0;">
+              {{ item.name }}
+              <block wx:if="{{ !item.unfold && item.level!==3 }}">
+                <van-icon name="{{ item.open?'arrow-down': 'arrow'}}" />
+              </block>
+            </view>
+          </van-checkbox>
+        </van-col>
+
+        <block wx:if="{{ index % 2 !== 0 }}">
+          <!-- 在第偶数个节点后面添加子节点 -->
+          <view wx:if="{{ nodes[index - 1].nodes && nodes[index - 1].nodes.length }}"
+            hidden="{{ !nodes[index - 1].unfold && !nodes[index - 1].open }}">
+            <component-tree nodes="{{ nodes[index - 1].nodes || [] }}" rootId="{{ rootId }}"></component-tree>
+          </view>
+          <view wx:if="{{ item.nodes && item.nodes.length }}" hidden="{{ !item.unfold && !item.open }}">
+            <component-tree nodes="{{ item.nodes || [] }}" rootId="{{ rootId }}"></component-tree>
+          </view>
+        </block>
+        <block wx:elif="{{ index % 2 === 0 && index === nodes.length - 1 }}">
+          <!-- 如果节点是第奇数个，则补充空节点为偶数个，再添加节点的子节点 -->
+          <van-col wx:if="{{ item.level > 0 }}" span="12"><text decode="true" style="line-height:30px;">&nbsp;</text>
+          </van-col>
+          <view wx:if="{{ item.nodes && item.nodes.length }}" hidden="{{ !item.unfold && !item.open }}">
+            <component-tree nodes="{{ item.nodes || [] }}" rootId="{{ rootId }}"></component-tree>
+          </view>
+        </block>
+      </block>
+    </van-row>
+  </van-col>
+</van-row>
