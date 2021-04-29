@@ -4,7 +4,7 @@ const {
   doWithTree,
   getValueByPath,
   getAreasList
-} = require("../../utility/public")
+} = require("../../utils/public")
 const daquArray = ['dongBei', 'huaDong', 'huaZhong', 'huaNan', 'huaBei', 'xiBei', 'xiNan', 'gangAoTai']
 Page({
 

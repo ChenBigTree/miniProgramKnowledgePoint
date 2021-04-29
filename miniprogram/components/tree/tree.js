@@ -3,7 +3,7 @@ const fieldName = 'name'
 const {
   getValueByPath,
   doWithTree 
-} =require("../../utility/public")
+} =require("../../utils/public")
 function splitKeyToArray(key) {
   // 把字符串 'nodes[0].nodes[1].nodes[1]' 分解为数组：
   // ['nodes[0]', 'nodes[0].nodes[1]', 'nodes[0].nodes[1].nodes[1]']

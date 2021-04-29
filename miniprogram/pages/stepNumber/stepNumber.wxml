@@ -1,2 +1,4 @@
-<!--pages/stepNumber/stepNumber.wxml-->
-<text>pages/stepNumber/stepNumber.wxml</text>
+<view wx:for="{{WXStepNumber}}" wx:key="key">
+  <text>时间：{{item.time}}  </text>
+  <text>步数：{{item.step}}</text>
+</view>

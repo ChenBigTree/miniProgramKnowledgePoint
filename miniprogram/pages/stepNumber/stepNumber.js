@@ -1,4 +1,5 @@
 // pages/stepNumber/stepNumber.js
+var moment = require('../../utils/moment.min');
 Page({
 
   /**
@@ -13,64 +14,53 @@ Page({
    */
   onLoad: function (options) {
     // 展示本地存储能力
-    wx.login({
-      success: res => {
-        console.log("res", res)
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        if (res.code) {
-          var APPID = 'wx99155eb36a6a05c7'
-          var SECRET = '9775e6aafc4ab3b41c9f168aa41e9881'
-          var session_key
-          wx.cloud.callFunction({
-            name: "getSessionKey",
-            data:{
-              code:res.code
-            }
-          }).then(res => {
-            console.log("getSessionKey", res)
-          }).catch(err => {
-            console.log("getSessionKey", err)
-          })
-          
-          wx.request({
-            url: 'https://api.weixin.qq.com/sns/jscode2session?appid=' + APPID + '&secret=' + SECRET + '&js_code=' + res.code + '&grant_type=authorization_code',
-            data: {
-              //code: res.code
-            },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-              console.log("res.data ", res.data)
-              session_key = res.data.session_key
-              console.log("session_key: ", session_key)
-              wx.getWeRunData({
-                success(res) {
-                  console.log("res", res)
-                  const encryptedRunData = res.encryptedData
-                  const runiv = res.iv
-                  console.log("加密的数据: ", encryptedRunData)
-                  var pc = new WXBizDataCrypt(APPID, session_key)
-                  var tmpdata = pc.decryptData(encryptedRunData, runiv)
-                  console.log("解密后data：", tmpdata)
-                },
-                fail(err) {
-                  console.log("err", err)
-                }
-              })
-            },
-            fail(err) {
-              console.log("request", err)
-            }
-          })
-        } else {
-          console.log('失败' + res.errMsg)
-        }
-      }
-    })
-
+    this.getRun()
   },
-
+  getRun() {
+    let getOriginalData = new Promise((resOriginal,errOriginal)=>{
+      wx.getSetting({
+        success: res => {
+          if (!res.authSetting['scope.werun']) {
+            wx.authorize({
+              scope: 'scope.record',
+              success() {
+                console.log("允许")
+                // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+                wx.startRecord()
+              },
+              fail() {
+                console.log("不允许")
+              }
+            })
+          } else {
+            wx.getWeRunData({
+              success(res) {
+                //由于数据是进行加密的所以我们通过条用云函数的方式进行解密
+                wx.cloud.callFunction({
+                  name: 'getSessionKey',
+                  data: {
+                    weRunData: wx.cloud.CloudID(res.cloudID) // 这个 CloudID 值到云函数端会被替换
+                  }
+                }).then(res=>{
+                  resOriginal(res.result.weRunData.data)
+                }) 
+              }
+            })
+          }
+        }
+      })
+    
+    })
+    Promise.all([getOriginalData]).then(el=>{
+      console.log(el[0].stepInfoList)
+      el[0].stepInfoList.forEach(item=>{
+        item.time = moment(item.timestamp*1000).format('YYYY年MM月DD日')
+      })
+      this.setData({
+        WXStepNumber:el[0].stepInfoList
+      })
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -1,1 +1,7 @@
-/* pages/stepNumber/stepNumber.wxss */
+page{
+  padding: 20rpx;
+}
+
+view{
+  margin-bottom: 10rpx;
+}
