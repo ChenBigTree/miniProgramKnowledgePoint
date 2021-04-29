@@ -15,15 +15,25 @@ Page({
     // 展示本地存储能力
     wx.login({
       success: res => {
-        console.log("res",res)
+        console.log("res", res)
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         if (res.code) {
           var APPID = 'wx99155eb36a6a05c7'
           var SECRET = '9775e6aafc4ab3b41c9f168aa41e9881'
-          var JSCODE = res.code
           var session_key
+          wx.cloud.callFunction({
+            name: "getSessionKey",
+            data:{
+              code:res.code
+            }
+          }).then(res => {
+            console.log("getSessionKey", res)
+          }).catch(err => {
+            console.log("getSessionKey", err)
+          })
+          
           wx.request({
-            url: 'https://api.weixin.qq.com/sns/jscode2session?appid=' + APPID + '&secret=' + SECRET + '&js_code=' + JSCODE + '&grant_type=authorization_code',
+            url: 'https://api.weixin.qq.com/sns/jscode2session?appid=' + APPID + '&secret=' + SECRET + '&js_code=' + res.code + '&grant_type=authorization_code',
             data: {
               //code: res.code
             },
@@ -31,26 +41,26 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log("res.data ",res.data)
+              console.log("res.data ", res.data)
               session_key = res.data.session_key
-              console.log("session_key: ",session_key)
+              console.log("session_key: ", session_key)
               wx.getWeRunData({
                 success(res) {
-                  console.log("res",res)
+                  console.log("res", res)
                   const encryptedRunData = res.encryptedData
                   const runiv = res.iv
-                  console.log("加密的数据: ",encryptedRunData)
+                  console.log("加密的数据: ", encryptedRunData)
                   var pc = new WXBizDataCrypt(APPID, session_key)
                   var tmpdata = pc.decryptData(encryptedRunData, runiv)
                   console.log("解密后data：", tmpdata)
                 },
                 fail(err) {
-                  console.log("err",err)
+                  console.log("err", err)
                 }
               })
             },
-            fail(err){
-              console.log("request",err)
+            fail(err) {
+              console.log("request", err)
             }
           })
         } else {
@@ -58,7 +68,7 @@ Page({
         }
       }
     })
-    
+
   },
 
   /**

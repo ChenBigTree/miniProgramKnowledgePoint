@@ -45,6 +45,7 @@
   "appid": "wx99155eb36a6a05c7",
   "projectname": "bigtreeDomo",
   "libVersion": "2.16.1",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "search": {
       "list": []
