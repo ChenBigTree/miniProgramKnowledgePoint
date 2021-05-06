@@ -1,4 +1,5 @@
 {
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -14,11 +15,18 @@
         {
           "name": "地区选择",
           "pathName": "pages/treePage/treePage",
+          "query": "",
           "scene": null
         },
         {
           "name": "获取微信步数",
           "pathName": "pages/stepNumber/stepNumber",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/userInfo/userInfo",
+          "pathName": "pages/userInfo/userInfo",
           "scene": null
         }
       ]

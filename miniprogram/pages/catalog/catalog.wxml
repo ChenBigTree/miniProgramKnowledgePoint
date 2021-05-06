@@ -1,2 +1,3 @@
 <van-cell title="地区选择（树形结构）" is-link url="/pages/treePage/treePage" />
 <van-cell title="获取微信步数" is-link url="/pages/stepNumber/stepNumber" />
+<van-cell title="获取微信用户信息" is-link url="/pages/userInfo/userInfo" />

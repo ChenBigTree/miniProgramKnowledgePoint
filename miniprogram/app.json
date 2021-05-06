@@ -2,6 +2,7 @@
   "pages": [
     "pages/catalog/catalog",
     "pages/stepNumber/stepNumber",
+    "pages/userInfo/userInfo",
     "pages/treePage/treePage"
   ],
   "window": {
